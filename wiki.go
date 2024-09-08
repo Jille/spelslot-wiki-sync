@@ -2,12 +2,25 @@ package main
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/samber/lo"
 )
 
+var knownImageExtensions = regexp.MustCompile(`\.(jpeg?|webp|png|gif)$`)
+
 func characterToWikiPage(ch CharacterResponse) string {
+	avatarURL := ch.Data.Decorations.AvatarURL
+	if avatarURL != "" && !knownImageExtensions.MatchString(avatarURL) {
+		if strings.Contains(avatarURL, "?") {
+			avatarURL = strings.TrimSuffix(avatarURL, "&") + "&_mediawiki_hack=.jpg"
+		} else {
+			avatarURL += "?_mediawiki_hack=.jpg"
+		}
+	}
+	avatarURL = strings.ReplaceAll(strings.ReplaceAll(avatarURL, "=", "{{=}}"), "|", "{{!}}")
+
 	var charParams []string
 	var infoTable []string
 	var categories []string
@@ -24,8 +37,8 @@ func characterToWikiPage(ch CharacterResponse) string {
 	} else {
 		infoTable = append(infoTable, "Character sheet", "''not available''")
 	}
-	if ch.Data.Decorations.AvatarURL != "" {
-		charParams = append(charParams, "|Avatar="+ch.Data.Decorations.AvatarURL)
+	if avatarURL != "" {
+		charParams = append(charParams, "|Avatar="+avatarURL)
 	}
 	if ch.Data.Race.FullName != "" {
 		charParams = append(charParams, "|Race="+ch.Data.Race.FullName)
@@ -80,6 +93,9 @@ func characterToWikiPage(ch CharacterResponse) string {
 	fmt.Fprintf(&out, "<!-- DO NOT EDIT this page. -->")
 	fmt.Fprintf(&out, "<!-- It will be automatically reverted. -->")
 	fmt.Fprintf(&out, "<!-- Make your changes in D&D Beyond or talk to Jille. -->\n")
+	if avatarURL != "" {
+		fmt.Fprintf(&out, "{{Avatar|%s}}\n\n", avatarURL)
+	}
 	fmt.Fprintf(&out, "{{Character\n")
 	for _, p := range charParams {
 		fmt.Fprintf(&out, "  %s\n", p)
@@ -94,10 +110,6 @@ func characterToWikiPage(ch CharacterResponse) string {
 		fmt.Fprintf(&out, "| %s\n", p[1])
 	}
 	fmt.Fprintf(&out, "|}\n")
-
-	if ch.Data.Decorations.AvatarURL != "" {
-		fmt.Fprintf(&out, "%s\n\n", ch.Data.Decorations.AvatarURL)
-	}
 
 	if ch.Data.Traits.PersonalityTraits != "" {
 		fmt.Fprintf(&out, "== Personality Traits ==\n<nowiki>%s</nowiki>\n\n", ch.Data.Traits.PersonalityTraits)
