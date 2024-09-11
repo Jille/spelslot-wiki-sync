@@ -129,38 +129,38 @@ func characterToWikiPage(ch CharacterResponse) string {
 	fmt.Fprintf(&out, "|}\n")
 
 	if ch.Data.Traits.PersonalityTraits != "" {
-		fmt.Fprintf(&out, "== Personality Traits ==\n<nowiki>%s</nowiki>\n\n", ch.Data.Traits.PersonalityTraits)
+		fmt.Fprintf(&out, "== Personality Traits ==\n%s\n\n", ch.Data.Traits.PersonalityTraits)
 	}
 	if ch.Data.Traits.Ideals != "" {
-		fmt.Fprintf(&out, "== Ideals ==\n<nowiki>%s</nowiki>\n\n", ch.Data.Traits.Ideals)
+		fmt.Fprintf(&out, "== Ideals ==\n%s\n\n", ch.Data.Traits.Ideals)
 	}
 	if ch.Data.Traits.Bonds != "" {
-		fmt.Fprintf(&out, "== Bonds ==\n<nowiki>%s</nowiki>\n\n", ch.Data.Traits.Bonds)
+		fmt.Fprintf(&out, "== Bonds ==\n%s\n\n", ch.Data.Traits.Bonds)
 	}
 	if ch.Data.Traits.Flaws != "" {
-		fmt.Fprintf(&out, "== Flaws ==\n<nowiki>%s</nowiki>\n\n", ch.Data.Traits.Flaws)
+		fmt.Fprintf(&out, "== Flaws ==\n%s\n\n", ch.Data.Traits.Flaws)
 	}
 	if ch.Data.Traits.Appearance != "" {
-		fmt.Fprintf(&out, "== Appearance ==\n<nowiki>%s</nowiki>\n\n", ch.Data.Traits.Appearance)
+		fmt.Fprintf(&out, "== Appearance ==\n%s\n\n", ch.Data.Traits.Appearance)
 	}
 
 	if ch.Data.Notes.PersonalPossessions != "" {
-		fmt.Fprintf(&out, "== Personal Possessions ==\n<nowiki>%s</nowiki>\n\n", ch.Data.Notes.PersonalPossessions)
+		fmt.Fprintf(&out, "== Personal Possessions ==\n%s\n\n", ch.Data.Notes.PersonalPossessions)
 	}
 	if ch.Data.Notes.Organizations != "" {
-		fmt.Fprintf(&out, "== Organizations ==\n<nowiki>%s</nowiki>\n\n", ch.Data.Notes.Organizations)
+		fmt.Fprintf(&out, "== Organizations ==\n%s\n\n", ch.Data.Notes.Organizations)
 	}
 	if ch.Data.Notes.Allies != "" {
-		fmt.Fprintf(&out, "== Allies ==\n<nowiki>%s</nowiki>\n\n", ch.Data.Notes.Allies)
+		fmt.Fprintf(&out, "== Allies ==\n%s\n\n", ch.Data.Notes.Allies)
 	}
 	if ch.Data.Notes.Enemies != "" {
-		fmt.Fprintf(&out, "== Enemies ==\n<nowiki>%s</nowiki>\n\n", ch.Data.Notes.Enemies)
+		fmt.Fprintf(&out, "== Enemies ==\n%s\n\n", ch.Data.Notes.Enemies)
 	}
 	if ch.Data.Notes.Backstory != "" {
-		fmt.Fprintf(&out, "== Backstory ==\n<nowiki>%s</nowiki>\n\n", ch.Data.Notes.Backstory)
+		fmt.Fprintf(&out, "== Backstory ==\n%s\n\n", ch.Data.Notes.Backstory)
 	}
 	if ch.Data.Notes.OtherNotes != "" {
-		fmt.Fprintf(&out, "== Other ==\n<nowiki>%s</nowiki>\n\n", ch.Data.Notes.OtherNotes)
+		fmt.Fprintf(&out, "== Other ==\n%s\n\n", ch.Data.Notes.OtherNotes)
 	}
 
 	fmt.Fprintf(&out, "\n")
