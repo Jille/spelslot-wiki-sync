@@ -50,7 +50,7 @@ func characterToWikiPage(ch CharacterResponse) string {
 	var classAndLevels []string
 	sort.Slice(ch.Data.Classes, func(i, j int) bool {
 		if ch.Data.Classes[i].Level != ch.Data.Classes[j].Level {
-			return ch.Data.Classes[i].Level < ch.Data.Classes[j].Level
+			return ch.Data.Classes[i].Level > ch.Data.Classes[j].Level
 		}
 		return ch.Data.Classes[i].Definition.Name < ch.Data.Classes[j].Definition.Name
 	})

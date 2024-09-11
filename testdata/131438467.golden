@@ -5,7 +5,7 @@
   |Player=Jille
   |CharacterSheet=https://dndbeyond.com/characters/131438467
   |Race=Gnome
-  |Class=Ranger, Druid, Warlock
+  |Class=Druid, Ranger, Warlock
   |Alignment=Chaotic Neutral
   |Eyes=Yes
 }}
@@ -26,7 +26,7 @@
 | Gnome
 |-
 ! scope="row"| Class
-| Ranger, Druid, Warlock
+| Druid (1 level), Ranger (1 level), Warlock (1 level)
 |-
 ! scope="row"| Alignment
 | Chaotic Neutral
@@ -39,6 +39,6 @@
 
 
 [[Category:Races/Gnome]]
-[[Category:Classes/Ranger]]
 [[Category:Classes/Druid]]
+[[Category:Classes/Ranger]]
 [[Category:Classes/Warlock]]
