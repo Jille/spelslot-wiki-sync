@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"regexp"
+	"sort"
 	"strings"
 
 	"github.com/samber/lo"
@@ -46,13 +47,29 @@ func characterToWikiPage(ch CharacterResponse) string {
 		categories = append(categories, "Races/"+ch.Data.Race.BaseRaceName)
 	}
 	var classes []string
+	var classAndLevels []string
+	sort.Slice(ch.Data.Classes, func(i, j int) bool {
+		if ch.Data.Classes[i].Level != ch.Data.Classes[j].Level {
+			return ch.Data.Classes[i].Level < ch.Data.Classes[j].Level
+		}
+		return ch.Data.Classes[i].Definition.Name < ch.Data.Classes[j].Definition.Name
+	})
 	for _, c := range ch.Data.Classes {
+		f := c.Definition.Name
+		if len(ch.Data.Classes) > 1 {
+			if c.Level == 1 {
+				f += " (1 level)"
+			} else {
+				f += fmt.Sprintf(" (%d levels)", c.Level)
+			}
+		}
 		classes = append(classes, c.Definition.Name)
+		classAndLevels = append(classAndLevels, f)
 		categories = append(categories, "Classes/"+c.Definition.Name)
 	}
 	if len(classes) > 0 {
 		charParams = append(charParams, "|Class="+strings.Join(classes, ", "))
-		infoTable = append(infoTable, "Class", strings.Join(classes, ", "))
+		infoTable = append(infoTable, "Class", strings.Join(classAndLevels, ", "))
 	}
 	var spellslots []string
 	for _, s := range ch.Data.SpellSlots {
