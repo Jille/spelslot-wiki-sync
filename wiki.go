@@ -171,15 +171,6 @@ func characterToWikiPage(ch CharacterResponse) string {
 	return out.String()
 }
 
-func translateUsername(u string) string {
-	switch u {
-	case "Quis__":
-		return "Jille"
-	default:
-		return u
-	}
-}
-
 func translateAlignment(n int) string {
 	switch n {
 	case 1:
@@ -202,5 +193,48 @@ func translateAlignment(n int) string {
 		return "Chaotic Evil"
 	default:
 		return ""
+	}
+}
+
+func translateUsername(u string) string {
+	switch u {
+	case "Quis__":
+		return "Jille"
+	case "Codename_Joker":
+		return "Suren"
+	case "Lobss":
+		return "Lobke"
+	case "Sami_Takkie":
+		return "Gijs"
+	case "IdsWijma":
+		return "Ids"
+	case "Eire1407":
+		return "Judith"
+	case "Zhycks":
+		return "Jochem"
+	case "Beurtbalkje95127":
+		return "Martijn"
+	case "alyxthemaknae":
+		return "Alyx"
+	case "PurpleSpaceBean":
+		return "Bean"
+	case "Bimarat":
+		return "Bart"
+	case "kallewizard":
+		return "Kalle"
+	case "mark0van1vliet":
+		return "Mark"
+	case "zackaalders":
+		return "Zack"
+	case "Mandraki":
+		return "Eelco"
+	case "Elaisor":
+		return "Rosalie"
+	case "aloneInTheField":
+		return "Anton"
+	case "SpringPurse":
+		return "Harmen M"
+	default:
+		return u
 	}
 }
