@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -60,4 +61,31 @@ func fetchCharacter(accessToken string, id int) (CharacterResponse, error) {
 		return ret, err
 	}
 	return ret, nil
+}
+
+func setCharacterPublic(accessToken string, id int) error {
+	b, err := json.Marshal(map[string]any{
+		"characterId": id,
+		"privacyType": 3,
+	})
+	if err != nil {
+		return err
+	}
+	req, err := http.NewRequest("PUT", "https://character-service.dndbeyond.com/character/v5/character/preferences", bytes.NewReader(b))
+	if err != nil {
+		return err
+	}
+	req.Header.Set("User-Agent", "Spelslot campaign sync (jille@quis.cx)")
+	req.Header.Set("Authorization", "Bearer "+accessToken)
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return err
+	}
+	if resp.StatusCode != 200 {
+		return fmt.Errorf("set public returned HTTP %s", resp.Status)
+	}
+	_, err = io.ReadAll(resp.Body)
+	resp.Body.Close()
+	return err
 }
