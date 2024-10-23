@@ -10,6 +10,7 @@ import (
 	"cgt.name/pkg/go-mwclient"
 	"cgt.name/pkg/go-mwclient/params"
 	"github.com/samber/lo"
+	"golang.org/x/text/unicode/norm"
 )
 
 var (
@@ -63,8 +64,8 @@ func syncCharacter(w *mwclient.Client, ch CharacterResponse) error {
 	text := characterToWikiPage(ch)
 
 	if err := w.Edit(params.Values{
-		"title":   "Character:" + ch.Data.Name,
-		"text":    text,
+		"title":   "Character:" + norm.NFC.String(ch.Data.Name),
+		"text":    norm.NFC.String(text),
 		"summary": "Sync character from D&D Beyond",
 		"bot":     "",
 	}); err != nil && err != mwclient.ErrEditNoChange {
@@ -78,7 +79,7 @@ func syncCharacter(w *mwclient.Client, ch CharacterResponse) error {
 
 	if _, err := w.Post(params.Values{
 		"action":      "protect",
-		"title":       "Character:" + ch.Data.Name,
+		"title":       "Character:" + norm.NFC.String(ch.Data.Name),
 		"protections": "edit=sysop|move=sysop",
 		"reason":      "Any changes would be overwritten by Spelbot",
 		"token":       csrfToken,
