@@ -41,9 +41,9 @@ func handleSummary(ctx context.Context, r *http.Request) convreq.HttpResponse {
 		return respond.Error(err)
 	}
 
-	ret := map[string]Summary{}
+	ret := map[int]Summary{}
 	for _, ch := range data {
-		ret[ch.Name] = characterSummary(ch)
+		ret[ch.ID] = characterSummary(ch)
 	}
 	return respond.JSON(ret)
 }
