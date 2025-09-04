@@ -1,4 +1,4 @@
-FROM golang:latest as build
+FROM golang:latest As build
 
 WORKDIR /app
 
@@ -9,7 +9,7 @@ COPY . .
 
 RUN go build -o /serve ./cmd/serve
  
-FROM alpine:latest as run
+FROM alpine:latest AS run
 
 # Copy the application executable from the build image
 COPY --from=build /app /charsync-serve
