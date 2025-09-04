@@ -7,6 +7,8 @@ import (
 	"io"
 	"net/http"
 	"os"
+
+	charsync "github.com/Jille/spelslot-wiki-sync"
 )
 
 type authResponse struct {
@@ -36,8 +38,8 @@ func getDDBAccessToken(cobaltSession string) (string, error) {
 	return ar.Token, nil
 }
 
-func fetchCharacter(accessToken string, id int) (CharacterResponse, error) {
-	var ret CharacterResponse
+func fetchCharacter(accessToken string, id int) (charsync.CharacterResponse, error) {
+	var ret charsync.CharacterResponse
 	req, err := http.NewRequest("GET", fmt.Sprintf("https://character-service.dndbeyond.com/character/v5/character/%d", id), nil)
 	if err != nil {
 		return ret, err
