@@ -59,6 +59,7 @@ type Summary struct {
 	BaseRace         string         `json:"base_race"`
 	ClassDescription string         `json:"class_description"`
 	Classes          map[string]int `json:"classes"`
+	Subclasses       []string       `json:"subclasses"`
 	Level            int            `json:"level"`
 	// Spellslots          map[int]int    `json:"spellslots"`
 	Alignment           string `json:"alignment"`
@@ -130,6 +131,10 @@ func characterSummary(ch charsync.CharacterInfo) Summary {
 			ret.ClassDescription += ", "
 		}
 		ret.ClassDescription += f
+
+		if c.SubclassDefinition.Name != "" {
+			ret.Subclasses = append(ret.Subclasses, c.SubclassDefinition.Name)
+		}
 	}
 	/* Is always empty?
 	for _, s := range ch.SpellSlots {

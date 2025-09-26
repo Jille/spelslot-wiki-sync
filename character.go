@@ -420,8 +420,46 @@ type CharacterInfo struct {
 				HidePrerequisite bool `json:"hidePrerequisite"`
 			} `json:"prerequisites"`
 		} `json:"definition"`
-		SubclassDefinition interface{} `json:"subclassDefinition"`
-		ClassFeatures      []struct {
+		SubclassDefinition struct {
+			ID                    int         `json:"id"`
+			DefinitionKey         string      `json:"definitionKey"`
+			Name                  string      `json:"name"`
+			Description           string      `json:"description"`
+			EquipmentDescription  interface{} `json:"equipmentDescription"`
+			ParentClassID         int         `json:"parentClassId"`
+			AvatarURL             interface{} `json:"avatarUrl"`
+			LargeAvatarURL        interface{} `json:"largeAvatarUrl"`
+			PortraitAvatarURL     interface{} `json:"portraitAvatarUrl"`
+			MoreDetailsURL        string      `json:"moreDetailsUrl"`
+			SpellCastingAbilityID int         `json:"spellCastingAbilityId"`
+			Sources               []struct {
+				SourceID   int `json:"sourceId"`
+				PageNumber int `json:"pageNumber"`
+				SourceType int `json:"sourceType"`
+			} `json:"sources"`
+			ClassFeatures []struct {
+				ID            int         `json:"id"`
+				Name          string      `json:"name"`
+				Prerequisite  interface{} `json:"prerequisite"`
+				Description   string      `json:"description"`
+				RequiredLevel int         `json:"requiredLevel"`
+				DisplayOrder  int         `json:"displayOrder"`
+			} `json:"classFeatures"`
+			HitDice                   int         `json:"hitDice"`
+			WealthDice                interface{} `json:"wealthDice"`
+			CanCastSpells             bool        `json:"canCastSpells"`
+			KnowsAllSpells            bool        `json:"knowsAllSpells"`
+			SpellPrepareType          interface{} `json:"spellPrepareType"`
+			SpellCastingLearningStyle interface{} `json:"spellCastingLearningStyle"`
+			SpellContainerName        interface{} `json:"spellContainerName"`
+			SourcePageNumber          int         `json:"sourcePageNumber"`
+			SubclassDefinition        interface{} `json:"subclassDefinition"`
+			IsHomebrew                bool        `json:"isHomebrew"`
+			PrimaryAbilities          interface{} `json:"primaryAbilities"`
+			SpellRules                interface{} `json:"spellRules"`
+			Prerequisites             interface{} `json:"prerequisites"`
+		} `json:"subclassDefinition"`
+		ClassFeatures []struct {
 			Definition struct {
 				ID                    int           `json:"id"`
 				DefinitionKey         string        `json:"definitionKey"`
