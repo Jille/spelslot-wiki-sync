@@ -9,6 +9,7 @@ import (
 	"os"
 	"sort"
 	"strconv"
+	"sync"
 
 	"github.com/Jille/convreq"
 	"github.com/Jille/convreq/respond"
@@ -18,6 +19,10 @@ import (
 var (
 	datafile = flag.String("datafile", "characters.json", "Path to the JSON file")
 	port     = flag.Int("port", 8080, "HTTP port number")
+
+	cacheMtx sync.Mutex
+	cacheSt  os.FileInfo
+	cache    []byte
 )
 
 func main() {
@@ -32,20 +37,33 @@ func handleFull(ctx context.Context, r *http.Request) convreq.HttpResponse {
 }
 
 func handleSummary(ctx context.Context, r *http.Request) convreq.HttpResponse {
-	b, err := os.ReadFile(*datafile)
+	st, err := os.Stat(*datafile)
 	if err != nil {
 		return respond.Error(err)
 	}
-	var data map[int]charsync.CharacterInfo
-	if err := json.Unmarshal(b, &data); err != nil {
-		return respond.Error(err)
-	}
+	cacheMtx.Lock()
+	defer cacheMtx.Unlock()
+	if st.ModTime() != cacheSt.ModTime() || st.Size() != cacheSt.Size() {
+		b, err := os.ReadFile(*datafile)
+		if err != nil {
+			return respond.Error(err)
+		}
+		var data map[int]charsync.CharacterInfo
+		if err := json.Unmarshal(b, &data); err != nil {
+			return respond.Error(err)
+		}
 
-	ret := map[int]Summary{}
-	for _, ch := range data {
-		ret[ch.ID] = characterSummary(ch)
+		ret := map[int]Summary{}
+		for _, ch := range data {
+			ret[ch.ID] = characterSummary(ch)
+		}
+		cache, err = json.Marshal(ret)
+		if err != nil {
+			return respond.Error(err)
+		}
+		cacheSt = st
 	}
-	return respond.JSON(ret)
+	return respond.WithHeader(respond.Bytes(cache), "Content-Type", "application/json")
 }
 
 type Summary struct {
