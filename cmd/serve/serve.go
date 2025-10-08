@@ -43,7 +43,7 @@ func handleSummary(ctx context.Context, r *http.Request) convreq.HttpResponse {
 	}
 	cacheMtx.Lock()
 	defer cacheMtx.Unlock()
-	if st.ModTime() != cacheSt.ModTime() || st.Size() != cacheSt.Size() {
+	if cacheSt == nil || st.ModTime() != cacheSt.ModTime() || st.Size() != cacheSt.Size() {
 		b, err := os.ReadFile(*datafile)
 		if err != nil {
 			return respond.Error(err)
